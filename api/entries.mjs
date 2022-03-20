@@ -16,4 +16,10 @@ export default async function handler(req, res) {
     res.json(result);
     return;
   }
+
+  if (req.method === 'DELETE') {
+    const entries = await Entry.deleteOne(req.body);
+    res.json(entries);
+    return;
+  }
 }

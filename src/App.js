@@ -27,6 +27,8 @@ export default function App() {
     setColor(color);
   }
 
+  console.log(entries);
+
   return (
     <>
       {!userExsists && <EnterUser onSubmit={handleUserSubmit}></EnterUser>}
@@ -37,7 +39,13 @@ export default function App() {
             {entries
               ? entries.map(({ text, author, _id, tempId, color }) => (
                   <li key={_id ?? tempId}>
-                    <Entry text={text} author={author} color={color} />
+                    <Entry
+                      text={text}
+                      author={author}
+                      color={color}
+                      id={_id}
+                      onDelete={handleDelete}
+                    />
                   </li>
                 ))
               : '... loading! ...'}
@@ -47,6 +55,19 @@ export default function App() {
       )}
     </>
   );
+
+  async function handleDelete(id) {
+    const deletedId = {
+      _id: id,
+    };
+    await fetch('/api/entries', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(deletedId),
+    });
+  }
 
   async function handleNewEntry(text) {
     const newEntry = {
