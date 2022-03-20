@@ -13,9 +13,7 @@ export default function App() {
   } = useSWR('/api/entries', fetcher, {
     refreshInterval: 1000,
   });
-
   if (entriesError) return <h1>Sorry, could not fetch.</h1>;
-
   return (
     <Grid>
       <h1>Lean Coffee Board</h1>
@@ -31,16 +29,13 @@ export default function App() {
       <EntryForm onSubmit={handleNewEntry} />
     </Grid>
   );
-
   async function handleNewEntry(text) {
     const newEntry = {
       text,
       author: 'Anonymous',
       tempId: Math.random(),
     };
-
     mutateEntries([...entries, newEntry], false);
-
     await fetch('/api/entries', {
       method: 'POST',
       headers: {
@@ -48,7 +43,6 @@ export default function App() {
       },
       body: JSON.stringify(newEntry),
     });
-
     mutateEntries();
   }
 }
