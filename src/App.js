@@ -1,11 +1,16 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import Entry from './components/Entry';
 import EntryForm from './components/EntryForm';
+import EnterUser from './components/EnterUser';
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function App() {
+  const [user, setUser] = useState('');
+  const [userExsists, setUserExists] = useState(false);
+
   const {
     data: entries,
     error: entriesError,
@@ -14,25 +19,40 @@ export default function App() {
     refreshInterval: 1000,
   });
   if (entriesError) return <h1>Sorry, could not fetch.</h1>;
+
+  console.log(user);
+  console.log(userExsists);
+
+  function handleUserSubmit(user) {
+    setUser(user);
+    setUserExists(true);
+  }
+
   return (
-    <Grid>
-      <h1>Lean Coffee Board</h1>
-      <EntryList role="list">
-        {entries
-          ? entries.map(({ text, author, _id, tempId }) => (
-              <li key={_id ?? tempId}>
-                <Entry text={text} author={author} />
-              </li>
-            ))
-          : '... loading! ...'}
-      </EntryList>
-      <EntryForm onSubmit={handleNewEntry} />
-    </Grid>
+    <>
+      {!userExsists && <EnterUser onSubmit={handleUserSubmit}></EnterUser>}
+      {userExsists && (
+        <Grid>
+          <h1>Lean Coffee Board</h1>
+          <EntryList role="list">
+            {entries
+              ? entries.map(({ text, author, _id, tempId }) => (
+                  <li key={_id ?? tempId}>
+                    <Entry text={text} author={author} />
+                  </li>
+                ))
+              : '... loading! ...'}
+          </EntryList>
+          <EntryForm onSubmit={handleNewEntry} />
+        </Grid>
+      )}
+    </>
   );
+
   async function handleNewEntry(text) {
     const newEntry = {
       text,
-      author: 'Anonymous',
+      author: user,
       tempId: Math.random(),
     };
 

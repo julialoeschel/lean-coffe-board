@@ -9,6 +9,7 @@ export default createGlobalStyle`
     margin: 0;
     font-family: sans-serif;
     font-size: 112.5%;
+   
   }
 
   input, label, button, textarea {
