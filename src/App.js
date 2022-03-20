@@ -35,6 +35,7 @@ export default function App() {
       author: 'Anonymous',
       tempId: Math.random(),
     };
+
     mutateEntries([...entries, newEntry], false);
     await fetch('/api/entries', {
       method: 'POST',
