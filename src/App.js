@@ -9,6 +9,7 @@ const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function App() {
   const [user, setUser] = useState('');
+  const [color, setColor] = useState('');
   const [userExsists, setUserExists] = useState(false);
 
   const {
@@ -20,12 +21,10 @@ export default function App() {
   });
   if (entriesError) return <h1>Sorry, could not fetch.</h1>;
 
-  console.log(user);
-  console.log(userExsists);
-
-  function handleUserSubmit(user) {
+  function handleUserSubmit(user, color) {
     setUser(user);
     setUserExists(true);
+    setColor(color);
   }
 
   return (
@@ -36,9 +35,9 @@ export default function App() {
           <h1>Lean Coffee Board</h1>
           <EntryList role="list">
             {entries
-              ? entries.map(({ text, author, _id, tempId }) => (
+              ? entries.map(({ text, author, _id, tempId, color }) => (
                   <li key={_id ?? tempId}>
-                    <Entry text={text} author={author} />
+                    <Entry text={text} author={author} color={color} />
                   </li>
                 ))
               : '... loading! ...'}
@@ -53,6 +52,7 @@ export default function App() {
     const newEntry = {
       text,
       author: user,
+      color: color,
       tempId: Math.random(),
     };
 

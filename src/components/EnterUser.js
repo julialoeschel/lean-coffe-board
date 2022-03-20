@@ -3,7 +3,10 @@ import styled from 'styled-components';
 export default function EnterUser({ onSubmit }) {
   function handleSubmitt(event) {
     event.preventDefault();
-    onSubmit(event.target.elements.userInput.value);
+    onSubmit(
+      event.target.elements.userInput.value,
+      event.target.elements.color.value
+    );
   }
 
   return (
@@ -11,6 +14,8 @@ export default function EnterUser({ onSubmit }) {
       <Form action="submitt" onSubmit={handleSubmitt}>
         <label htmlFor="usterInput">what is your name?</label>
         <input type="text" name="userInput" id="userInput" required />
+        <label htmlFor="color">chosse a color</label>
+        <input type="color" name="color" id="color" />
         <Button>Start!</Button>
       </Form>
     </Container>
