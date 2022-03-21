@@ -27,8 +27,6 @@ export default function App() {
     setColor(color);
   }
 
-  console.log(entries);
-
   return (
     <>
       {!userExsists && <EnterUser onSubmit={handleUserSubmit}></EnterUser>}
@@ -37,17 +35,20 @@ export default function App() {
           <h1>Lean Coffee Board</h1>
           <EntryList role="list">
             {entries
-              ? entries.map(({ text, author, _id, tempId, color }) => (
-                  <li key={_id ?? tempId}>
-                    <Entry
-                      text={text}
-                      author={author}
-                      color={color}
-                      id={_id}
-                      onDelete={handleDelete}
-                    />
-                  </li>
-                ))
+              ? entries.map(
+                  ({ text, author, _id, tempId, color, createdAt }) => (
+                    <li key={_id ?? tempId}>
+                      <Entry
+                        text={text}
+                        author={author}
+                        color={color}
+                        id={_id}
+                        onDelete={handleDelete}
+                        createdAt={createdAt}
+                      />
+                    </li>
+                  )
+                )
               : '... loading! ...'}
           </EntryList>
           <EntryForm onSubmit={handleNewEntry} />

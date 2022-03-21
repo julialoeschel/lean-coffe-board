@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import ScreenReaderOnly from './ScreenReaderOnly';
+import dayjs from 'dayjs';
 
-export default function Entry({ text, author, color, id, onDelete }) {
+export default function Entry({
+  text,
+  author,
+  color,
+  id,
+  onDelete,
+  createdAt,
+}) {
   return (
     <Card>
       {text}
@@ -10,6 +18,7 @@ export default function Entry({ text, author, color, id, onDelete }) {
         <ScreenReaderOnly>Create new entry</ScreenReaderOnly>{' '}
         <div aria-hidden="true">x</div>
       </Delete>
+      <span>{dayjs(createdAt).format('DD.MM.YYYY HH:mm')}</span>
     </Card>
   );
 }
