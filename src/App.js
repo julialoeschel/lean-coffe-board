@@ -57,6 +57,9 @@ export default function App() {
   );
 
   async function handleDelete(id) {
+    const filteredEntries = entries.filter(entry => entry._id !== id);
+    mutateEntries(filteredEntries, false);
+
     const deletedId = {
       _id: id,
     };
@@ -67,6 +70,7 @@ export default function App() {
       },
       body: JSON.stringify(deletedId),
     });
+    mutateEntries();
   }
 
   async function handleNewEntry(text) {
